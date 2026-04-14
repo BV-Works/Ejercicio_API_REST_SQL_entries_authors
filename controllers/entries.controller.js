@@ -49,6 +49,17 @@ const createEntry = async (req, res) => {
       error: "Formato de email no válido",
     });
   }
+
+  // si el email cumple con el formato, validamos que exista un author con ese email para no dejar entries sin autor
+  const authorExists = await author.getAuthorsByEmail(email);
+
+  if (!authorExists.length) {
+    return res.status(404).json({
+      success: false,
+      error: "Author no existe",
+    });
+  }
+
   try {
     const response = await entry.createEntry(newEntry);
     res.status(201).json({
