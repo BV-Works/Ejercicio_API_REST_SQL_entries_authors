@@ -9,39 +9,38 @@ const getAllEntries = async () => {
 
 // GET by email
 const getEntriesByEmail = async (email) => {
-  const data = await pool.query(
-    queries.getEntriesByEmail,
-    [email]
-  );
+  const data = await pool.query(queries.getEntriesByEmail, [email]);
   return data.rows;
 };
 
 // CREATE
 const createEntry = async ({ title, content, email, category }) => {
-  const data = await pool.query(
-    queries.createEntry,
-    [title, content, email, category]
-  );
+  const data = await pool.query(queries.createEntry, [
+    title,
+    content,
+    email,
+    category,
+  ]);
 
   return data.rowCount;
 };
 
 // UPDATE
-const updateEntry = async ({ title, content, email, category }) => {
-  const data = await pool.query(
-    queries.updateEntry,
-    [title, content, email, category]
-  );
+const updateEntry = async (oldTitle, { title, content, email, category }) => {
+  const data = await pool.query(queries.updateEntry, [
+    title,
+    content,
+    email,
+    category,
+    oldTitle,
+  ]);
 
   return data.rowCount;
 };
 
 // DELETE
 const deleteEntry = async (title) => {
-  const data = await pool.query(
-    queries.deleteEntry,
-    [title]
-  );
+  const data = await pool.query(queries.deleteEntry, [title]);
 
   return data.rowCount;
 };

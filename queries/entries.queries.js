@@ -1,6 +1,6 @@
 const queries = {
   getEntriesByEmail: `
-    SELECT e.title,e.content,e.date,e.category,a.name,a.surname,a.image
+    SELECT e.title,e.content,e.date,e.category,a.name,a.surname, a.email AS email_author, a.image
     FROM entries AS e
     INNER JOIN authors AS a
     ON e.id_author=a.id_author
@@ -9,7 +9,7 @@ const queries = {
   `,
 
   getAllEntries: `
-    SELECT e.title,e.content,e.date,e.category,a.name,a.surname,a.email AS email_author
+    SELECT e.title,e.content,e.date,e.category,a.name,a.surname,a.email AS email_author, a.image
     FROM entries AS e
     INNER JOIN authors AS a
     ON e.id_author=a.id_author

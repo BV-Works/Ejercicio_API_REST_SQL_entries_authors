@@ -25,9 +25,11 @@ module.exports = router;
 // PUT http://localhost:3000/api/entries
 /*
 {
-    "title":"noticia desde Node",
-    "content":"va a triunfar esto3",
-    "email":"jimbo@thebridgeschool.es"
+  "oldTitle": "Noticia vieja",
+  "title": "Noticia nueva",
+  "content": "contenido actualizado",
+  "email": "author@email.com",
+  "category": "sucesos"
 }
 */
 // DELETE http://localhost:3000/api/entries

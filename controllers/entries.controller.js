@@ -75,11 +75,15 @@ const createEntry = async (req, res) => {
 };
 
 const updateEntry = async (req, res) => {
-  const editedEntry = req.body; // {new_title,title,content,email,category}
+  const editedEntry = req.body; // {oldTitle,title,content,email,category}
+  const { oldTitle, title, content, email, category } = req.body;
+  if (!oldTitle) {
+    return res.status(400).json({
+      success: false,
+      error: "Falta el título original (oldTitle)",
+    });
+  }
 
-  const { title, email } = editedEntry;
-
-  // Validar campos de búsqueda: title
   if (!title) {
     return res.status(400).json({
       success: false,
@@ -88,27 +92,44 @@ const updateEntry = async (req, res) => {
       error: "Faltan datos obligatorios: title",
     });
   }
-  // Validar formato de email
-  if (email && !emailRegex.test(email)) {
-    return res.status(400).json({
-      success: false,
-      items_edited: 0,
-      data: editedEntry,
-      error: "Formato de email no válido",
-    });
+
+  if (email) {
+    if (!emailRegex.test(email)) {
+      // validamos el formato del email, pero no es un dato obligatorio para actualizar una entry,
+      // por eso solo lanzamos error si el email existe pero no es válido.
+      return res.status(400).json({
+        success: false,
+        items_edited: 0,
+        data: editedEntry,
+        error: "Formato de email no válido",
+      });
+    } else {
+      // si el email cumple con el formato, validamos que exista un author con ese email para no dejar entries sin autor
+      const authorExists = await author.getAuthorsByEmail(email);
+
+      if (!authorExists.length) {
+        return res.status(404).json({
+          success: false,
+          error: "Author no existe",
+        });
+      }
+    }
   }
 
-  // Se podría comprobar si existe el autor llamando a author.models.getAuthorByEmail() antes de intentar actualizar la entry,
-  // para dar un mensaje de error más específico en caso de que el email no exista en la base de datos.
-  // De momento lo dejamos que falle la query de actualización y capturamos el error genérico.
-
   try {
-    const response = await entry.updateEntry(editedEntry); // SQL UPDATE
+    const response = await entry.updateEntry(oldTitle, {
+      title,
+      content,
+      email,
+      category,
+    });
     // manejamos el no encontrar la entry a actualizar como un error, aunque realmente no es un error de ejecución sino un caso de "no encontrado"
     if (response === 0) {
       return res.status(404).json({
         success: false,
-        error: `No se encontró ninguna entry con el título '${title}'`,
+        items_edited: 0,
+        data: editedEntry,
+        error: `No se encontró entry con título '${oldTitle}'`,
       });
     }
 
@@ -116,7 +137,7 @@ const updateEntry = async (req, res) => {
       success: true,
       items_edited: response,
       data: editedEntry,
-      message: `Se ha modificado la entry ${title}`,
+      message: `Entry actualizada (${oldTitle})`,
     });
   } catch (err) {
     res.status(400).json({

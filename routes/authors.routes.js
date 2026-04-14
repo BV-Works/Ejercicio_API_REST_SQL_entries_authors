@@ -26,11 +26,11 @@ module.exports = router;
 // PUT http://localhost:3000/api/authors
 /*
 {
-    "id_author": 1,
-    "name": "Alejandru",
-    "surname": "Regex",
-    "email": "alejandru@thebridgeschool.es",
-    "image": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+  "oldEmail": "viejo@email.com",
+  "name": "Nuevo nombre",
+  "surname": "Nuevo apellido",
+  "email": "nuevo@email.com",
+  "image": "url"
 }
 */
 // DELETE http://localhost:3000/api/authors
