@@ -1,12 +1,14 @@
 const express = require('express');
 const helmet = require('helmet');
-const app = express();
+const morgan = require("morgan");
 const pool = require('../config/db_pgsql'); // Credenciales de conexión a la base de datos
 
+const app = express();
 const port = process.env.PG_PORT || 3000; // Puerto de escucha del servidor, por defecto 3000 si no se conecta a la base de datos
 
 
 // Middlewares
+app.use(morgan("dev")); // console.log de las peticiones al servidor para facilitar el desarrollo y debugging
 app.use(helmet()); // Securización de cabeceras HTTP
 app.use(express.json()); // Habilito recepción de JSON en servidor
 
