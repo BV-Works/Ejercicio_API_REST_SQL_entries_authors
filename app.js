@@ -4,7 +4,7 @@ const morgan = require("morgan");
 const pool = require('../config/db_pgsql'); // Credenciales de conexión a la base de datos
 
 const app = express();
-const port = process.env.PG_PORT || 3000; // Puerto de escucha del servidor, por defecto 3000 si no se conecta a la base de datos
+const port = process.env.PORT || 3000;  // Puerto definido en variables de entorno o 3000 por defecto
 
 
 // Middlewares
