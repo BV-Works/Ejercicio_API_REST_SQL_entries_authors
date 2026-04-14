@@ -40,6 +40,20 @@ const queries = {
     DELETE FROM authors
     WHERE email = $1;
   `,
+
+  createTable: `
+    CREATE TABLE authors (
+      id_author serial PRIMARY KEY,
+      name varchar(45) NOT NULL,
+      surname varchar(45) NOT NULL,
+      email varchar(100) NOT NULL UNIQUE,
+      image varchar(255)
+    );
+  `,
+
+  dropTable: `
+    DROP TABLE IF EXISTS authors;
+  `,
 };
 
 module.exports = queries;
