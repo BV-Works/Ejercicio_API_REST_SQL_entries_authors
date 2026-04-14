@@ -1,10 +1,13 @@
 const express = require('express');
-// Rutas de productos
 const entriesController = require("../controllers/entries.controller");
 const router = express.Router();
 
-router.get('/', entriesController.getEntries);
-router.post('/', entriesController.createEntry);
+router
+  .route('/entries')
+  .get(entriesController.getEntries)
+  .post(entriesController.createEntry)
+  .put(entriesController.updateEntry)
+  .delete(entriesController.deleteEntry);
 
 module.exports = router;
 
@@ -19,3 +22,17 @@ module.exports = router;
     "category":"sucesos"
 }
     */
+// PUT http://localhost:3000/api/entries
+/*
+{
+    "title":"noticia desde Node",
+    "content":"va a triunfar esto3",
+    "email":"jimbo@thebridgeschool.es"
+}
+*/
+// DELETE http://localhost:3000/api/entries
+/*
+{
+    "title":"noticia desde Node"
+}
+*/
