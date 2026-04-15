@@ -37,9 +37,9 @@ src/
 ├── app.js
 ├── package.json
 └── package-lock.json
-
+```
 ---
-🧱 Tecnologías utilizadas
+# 🧱 Tecnologías utilizadas
 Node.js
 Express
 PostgreSQL
@@ -49,11 +49,11 @@ helmet
 morgan
 
 ---
-📦 Instalación local
+# 📦 Instalación local
 npm install
 
 ---
-▶️ Ejecución del proyecto
+# ▶️ Ejecución del proyecto
 
 Desarrollo
 
@@ -64,7 +64,7 @@ Producción
 npm start
 
 ---
-⚙️ Variables de entorno
+# ⚙️ Variables de entorno
 
 Crear un archivo .env o .env.local:
 
@@ -76,7 +76,7 @@ DB_PORT=5432
 PORT=3000
 
 ---
-📌 Endpoints principales
+# 📌 Endpoints principales
 
 ✍️ ENTRIES
 🔹 Obtener todas las entries
@@ -180,13 +180,13 @@ Consultas con JOIN para obtener datos combinados
 }
 
 ---
-🛡️ Seguridad
+# 🛡️ Seguridad
 Helmet para cabeceras HTTP seguras
 Validación de emails
 Manejo de errores centralizado
 Constraints en PostgreSQL (UNIQUE en title/email)
 
 ---
-👨‍💻 Autor: BV-Works (Jaime Rubio)
+# 👨‍💻 Autor: BV-Works (Jaime Rubio)
 
 Proyecto desarrollado como ejercicio de API REST con PostgreSQL + Express
