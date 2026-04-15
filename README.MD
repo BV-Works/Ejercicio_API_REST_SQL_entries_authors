@@ -1,108 +1,192 @@
-# EJERCICIO - API REST con Express - Posts del blog
+# 📚 API REST SQL - Entries & Authors
 
-En este ejercicio vamos a trabajar con una base de datos relacional a través de una API REST que desarrollemos, para ello deberemos escribir la lógica necesaria en los archivos ya predefinidos en el repositorio, conectar la base de datos y definir las rutas para interactuar con ella.
+API REST desarrollada con **Node.js, Express y PostgreSQL** que permite gestionar entradas de blog (`entries`) y autores (`authors`), realizando operaciones CRUD completas y consultas relacionales entre ambas tablas.
 
-A continuación tienes las queries necesarias para el ejercicio, tendrás que ejecutarlas en pgAdmin 4 para crear las tablas e introducir los datos en ellas
+---
+# 🚀 URL de producción
 
-[Fichero queries SQL](./queries.sql)
+👉 API desplegada en Render:
 
+https://ejercicio-api-rest-sql-entries-authors-bmyv.onrender.com
 
-## Tareas a realizar
+---
+# 🏗️ Estructura del proyecto
 
-- Primero, vamos a modificar la BBDD para que no se puedan insertar entries repetidas por título (Hay que alterar algo en la tabla)
+```bash
+src/
+│
+├── config/
+│   └── db_pgsql.js
+│
+├── controllers/
+│   ├── entries.controller.js
+│   └── authors.controller.js
+│
+├── models/
+│   ├── entries.model.js
+│   └── authors.model.js
+│
+├── queries/
+│   ├── entries.queries.js
+│   └── authors.queries.js
+│
+├── routes/
+│   ├── entries.routes.js
+│   └── authors.routes.js
+│
+├── app.js
+├── package.json
+└── package-lock.json
 
-- Después, completamos la API con las siguientes rutas para entries:
+---
+🧱 Tecnologías utilizadas
+Node.js
+Express
+PostgreSQL
+pg (node-postgres)
+dotenv
+helmet
+morgan
 
-    - [GET] http://localhost:3000/api/entries Retorna todas las entries
-    - [GET] http://localhost:3000/api/entries?email=alejandru@thebridgeschool.es Retorna un objeto con las entries del autor buscado.
+---
+📦 Instalación local
+npm install
 
-    #### Modificar la query SQL para que me devuelva una respuesta con los datos del autor y sin ID de la entry:
+---
+▶️ Ejecución del proyecto
 
-```
-{
-"title": "noticia desde Node",
-"content": "va a triunfar esto2",
-"date": "2022-03-20T23:00:00.000Z",
-"category": "sucesos",
-"name": "Alejandru",
-"surname": "Regex",
-"email_author":"alejandru@thebridgeschool.es"
-"image": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
-}
-```
-En vez de esta respuesta, que es la que está ahora:
+Desarrollo
 
-```
- {
-"id_entry": 2,
-"title": "Noticia: Un panda suelto por la ciudad",
-"content": "El panda se comió todas las frutas de una tienda",
-"date": "2022-03-15T23:00:00.000Z",
-"id_author": 1,
-"category": "Sucesos"
-}
-```
+npm run dev
 
-- [PUT] http://localhost:3000/api/entries/ (parecido a POST) modifica una entry por completo con nuevos datos y retorna un status 200. Buscar por título para editar entry.
+Producción
 
-Payload:
-```
-{message: "Se ha modificado la entry 'Título de noticia' "}
+npm start
 
-```
+---
+⚙️ Variables de entorno
 
-- [DELETE] http://localhost:3000/api/entries/ Borra una entry y retorna un status 200. Búsqueda por título de entry para borrar. 
-Payload: 
-```
-{message: "Se ha borrado la entry 'Título de noticia' "}
-```
+Crear un archivo .env o .env.local:
 
-#### A continuación, crearemos las rutas para los autores:
+DB_HOST=tu_host
+DB_USER=tu_user
+DB_DATABASE=tu_database
+DB_PASSWORD=tu_password
+DB_PORT=5432
+PORT=3000
 
- 
-- [GET] http://localhost:3000/api/authors Retorna un objeto con los datos de todos los autores. Retorna un status 200.
+---
+📌 Endpoints principales
 
-Payload:
-```
-{
-    "id_author": 1,
+✍️ ENTRIES
+🔹 Obtener todas las entries
+GET /api/entries
+
+Ejemplo respuesta:
+[
+  {
+    "title": "Noticia desde Node",
+    "content": "va a triunfar esto2",
+    "date": "2022-03-20T23:00:00.000Z",
+    "category": "sucesos",
     "name": "Alejandru",
     "surname": "Regex",
-    "email": "alejandru@thebridgeschool.es",
+    "email_author": "alejandru@thebridgeschool.es",
     "image": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
-},
+  }
+]
+
+🔹 Obtener entries por email
+GET /api/entries?email=alejandru@thebridgeschool.es
+
+🔹 Crear entry
+POST /api/entries
+Body:
 {
-    ...
+  "title": "Noticia desde Node",
+  "content": "va a triunfar esto2",
+  "email": "alejandru@thebridgeschool.es",
+  "category": "sucesos"
 }
-...
-```
 
-- [GET] http://localhost:3000/api/authors?email=alejandru@thebridgeschool.es Retorna un objeto con los datos del autor buscado. Retorna un status 200
-Payload:
-
-```
+🔹 Actualizar entry
+PUT /api/entries
+Body:
 {
-    "id_author": 1,
-    "name": "Alejandru",
-    "surname": "Regex",
-    "email": "alejandru@thebridgeschool.es",
-    "image": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+  "oldTitle": "Título anterior",
+  "title": "Título nuevo",
+  "content": "contenido actualizado",
+  "email": "autor@email.com",
+  "category": "sucesos"
 }
-```
 
-- [POST] http://localhost:3000/api/authors/ Se envía por POST los datos del autor a crear y retorna un status 201. Payload:
-```
-{message: "usuario creado: guillermu@thebridgeschool.es"}
-```
+🔹 Eliminar entry
+DELETE /api/entries
+Body:
+{
+  "title": "Título de la noticia"
+}
 
-- [PUT] http://localhost:3000/api/authors/ Actualiza los datos de un autor y retorna un status 200. 
-Payload: 
-```
-{message: "usuario actualizado: guillermu@thebridgeschool.es"}
-```
+👤 AUTHORS
 
-- [DELETE] http://localhost:3000/api/authors/ Borra un autor y retorna un status 200. Búsqueda por email. 
-Payload: 
-```
-{message: "Se ha borrado guillermu@thebridgeschool.es"}
-```
+🔹 Obtener todos los authors
+GET /api/authors
+🔹 Obtener author por email
+GET /api/authors?email=alejandru@thebridgeschool.es
+
+🔹 Crear author
+POST /api/authors
+Body:
+{
+  "name": "Nombre",
+  "surname": "Apellido",
+  "email": "email@ejemplo.com",
+  "image": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+}
+
+🔹 Actualizar author
+PUT /api/authors
+Body:
+{
+  "oldEmail": "email@antiguo.com",
+  "name": "Nuevo nombre",
+  "surname": "Nuevo apellido",
+  "email": "nuevo@email.com",
+  "image": "url"
+}
+
+🔹 Eliminar author
+DELETE /api/authors
+Body:
+{
+  "email": "email@ejemplo.com"
+}
+
+🔗 Relación entre tablas
+Cada entry pertenece a un author
+Relación mediante id_author
+Consultas con JOIN para obtener datos combinados
+
+📊 Ejemplo de respuesta combinada
+{
+  "title": "Noticia",
+  "content": "Contenido...",
+  "date": "2022-03-20T23:00:00.000Z",
+  "category": "sucesos",
+  "name": "Alejandru",
+  "surname": "Regex",
+  "email_author": "alejandru@thebridgeschool.es",
+  "image": "https://randomuser.me/api/portraits/thumb/men/75.jpg"
+}
+
+---
+🛡️ Seguridad
+Helmet para cabeceras HTTP seguras
+Validación de emails
+Manejo de errores centralizado
+Constraints en PostgreSQL (UNIQUE en title/email)
+
+---
+👨‍💻 Autor: BV-Works (Jaime Rubio)
+
+Proyecto desarrollado como ejercicio de API REST con PostgreSQL + Express
