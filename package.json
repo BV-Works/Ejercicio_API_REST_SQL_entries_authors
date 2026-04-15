@@ -1,34 +1,34 @@
 {
   "name": "ejercicio_api_rest_entries_authors",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "Ejercicio para poner en practica consultas a base de datos relacional con API REST",
   "main": "app.js",
   "scripts": {
     "test": "jest",
-    "start": "nodemon app.js",
-    "dev": "node --watch app.js"
+    "dev": "cross-env NODE_ENV=development node --watch app.js",
+    "start": "cross-env NODE_ENV=production node app.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/JavierEspinosaP/Ejercicio_API_REST_entries_authors.git"
+    "url": "git+https://github.com/BV-Works/Ejercicio_API_REST_SQL_entries_authors.git"
   },
-  "author": "Javier Espinosa",
+  "author": "Jaime Rubio",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/JavierEspinosaP/Ejercicio_API_REST_entries_authors/issues"
+    "url": "https://github.com/BV-Works/Ejercicio_API_REST_SQL_entries_authors/issues"
   },
-  "homepage": "https://github.com/JavierEspinosaP/Ejercicio_API_REST_entries_authors#readme",
+  "homepage": "https://github.com/BV-Works/Ejercicio_API_REST_SQL_entries_authors#readme",
   "devDependencies": {
     "jest": "^29.7.0",
     "jest-stare": "^2.5.1",
     "supertest": "^6.3.3"
   },
   "dependencies": {
+    "cross-env": "^10.1.0",
     "dotenv": "^17.2.0",
     "express": "^5.1.0",
     "helmet": "^8.1.0",
     "morgan": "^1.10.1",
-    "nodemon": "^3.0.1",
     "pg": "^8.16.3"
   }
 }

@@ -1,7 +1,7 @@
 const express = require('express');
 const helmet = require('helmet');
 const morgan = require("morgan");
-const pool = require('../config/db_pgsql'); // Credenciales de conexión a la base de datos
+const pool = require('./config/db_pgsql'); // Credenciales de conexión a la base de datos
 
 const app = express();
 const port = process.env.PORT || 3000;  // Puerto definido en variables de entorno o 3000 por defecto
